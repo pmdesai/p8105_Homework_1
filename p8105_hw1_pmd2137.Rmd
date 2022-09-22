@@ -1,0 +1,43 @@
+---
+title: "P8105 HW1 (pmd2137)"
+output: html_notebook
+---
+## Problem 0
+
+## Problem 1
+```{r}
+data("penguins", package = "palmerpenguins")
+#summary(penguins)
+```
+
+Dataset contains data about 344 penguins.The following 8 variables are captured in the dataset and have the type indicated in parenthesis: 
+
+    1. species (factor): Adelie = 152; Chinstrap = 68; Gentoo = 124
+    2. island (factor): Biscoe = 168; Dream = 124; Torgersen = 52
+    3. bill_length_mm (double): mean = 43.92 mm
+    4. bill_depth_mm (double): mean = 17.5 mm
+    5. flipper_length_mm (integer): mean = 200.9 mm ***
+    6. body_mass_g (integer): mean = 4202 grams
+    7. sex (factor): male = 165; female = 168; NA = 11
+    8. year (integer): range = 2007 - 2009
+
+```{r}
+library(ggplot2)
+
+#flipper_length_mm (y) vs bill_length_mm (x)
+plot_1 <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
+ggsave("prob_1_plot.jpg", plot = plot_1)
+
+plot_1
+```
+
+## Problem 2
+
+```{r}
+
+```
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
