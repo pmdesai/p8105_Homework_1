@@ -1,13 +1,14 @@
 ---
-title: "P8105 HW1 (pmd2137)"
-output: html_notebook
+title: "P8105 HW1"
+author: Pooja Desai (pmd2137)
+output: github_document
 ---
-## Problem 0
 
 ## Problem 1
+
 ```{r}
-data("penguins", package = "palmerpenguins")
-#summary(penguins)
+data("penguins", package = "palmerpenguins") #load data
+#summary(penguins)  
 ```
 
 Dataset contains data about 344 penguins.The following 8 variables are captured in the dataset and have the type indicated in parenthesis: 
@@ -20,20 +21,69 @@ Dataset contains data about 344 penguins.The following 8 variables are captured 
     6. body_mass_g (integer): mean = 4202 grams
     7. sex (factor): male = 165; female = 168; NA = 11
     8. year (integer): range = 2007 - 2009
+  
+  summary() function was used to examine distribution of values for variables.
 
 ```{r}
 library(ggplot2)
 
-#flipper_length_mm (y) vs bill_length_mm (x)
+# PLOT_1: flipper_length_mm (y) vs bill_length_mm (x)
 plot_1 <- ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
-ggsave("prob_1_plot.jpg", plot = plot_1)
+plot_1 #view plot
 
-plot_1
+ggsave("prob_1_plot.jpg", plot = plot_1) #save plot as .jpg
+
 ```
 
 ## Problem 2
 
+This problem is intended to emphasize variable types and introduce coercion; some awareness of how R treats numeric, character, and factor variables is necessary for working with these data types in practice.
+
+Create a data frame comprised of:
+
+a random sample of size 10 from a standard Normal distribution
+a logical vector indicating whether elements of the sample are greater than 0
+a character vector of length 10
+a factor vector of length 10, with 3 different factor “levels”
+
 ```{r}
+library(tidyverse) 
+set.seed(1) #set so upon re-runs values are the same
+random_norm <- rnorm(10) #sample from normal distribution with mean=0, SD=1
+
+df <- data.frame(random_norm) #initialize dataframe
+
+df$logical_vector <- if_else(df$random_norm > 0, TRUE, FALSE, missing = NULL)
+df$character_vector <- as.character('holder_text')
+df$factor_vector <- as.factor(c("level_1", "level_2","level_3","level_1", "level_2","level_3","level_1", "level_2","level_3","level_1"))
+
+```
+*Try to take the mean of each variable in your dataframe. What works and what doesn’t? Hint: to take the mean of a variable in a dataframe, you need to pull the variable out of the dataframe. Try loading the tidyverse and using the pull function.*
+
+I am only able to take the mean of the variables with numeric and logical data types. However, I cannot take the mean of  variables with character and factor data types.
+
+```{r}
+df %>% pull(random_norm) %>% mean() #mean of random_norm
+df %>% pull(logical_vector) %>% mean() #mean of logical
+
+#CANNOT RUN fuctions below. Remove '#' to test.
+
+#df %>% pull(character_vector) %>% mean() #mean of character_vector
+#df %>% pull(factor_vector) %>% mean() #mean of random_norm
+
+```
+
+In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
+
+ - For df$logical_vector, using as.numeric() converts the TRUE and FALSE into 1's and 0's. The mean, is the average of these ones and zeros.
+ - For df$character_vector, using as.numeric() results in null values as the function cannot convert these characters to numeric; column returns NA
+ - For df$factor_vector, using as.numeric() converts each factor to an integater (1 for factor 1, etc.)
+
+```{r}
+
+as.numeric(df$logical_vector)
+as.numeric(df$character_vector)
+as.numeric(df$factor_vector)
 
 ```
 
